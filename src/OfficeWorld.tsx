@@ -104,13 +104,14 @@ const AGENTS = [
     teamIndex: 0,
     primary: true as const,
   })),
-  ...WORKSPACES[0].staff.flatMap((_, staffIndex) => WORKSPACES.map((workspace, workspaceIndex) => ({
-    ...workspace.staff[staffIndex],
-    workspaceId: workspace.id,
-    workspaceIndex,
-    teamIndex: staffIndex + 1,
-    primary: false as const,
-  }))),
+  ...WORKSPACES.flatMap((workspace, workspaceIndex) =>
+    workspace.staff.map((staff, staffIndex) => ({
+      ...staff,
+      workspaceId: workspace.id,
+      workspaceIndex,
+      teamIndex: staffIndex + 1,
+      primary: false as const,
+    }))),
 ].map((agent, agentIndex) => ({ ...agent, agentIndex }));
 const DISPLAY_ZONES = [
   ...WORKSPACE_ZONES.map((zone) => ({ ...zone, kind: "work" as const })),

@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { STATUS_LABELS, THEME, WORKSPACES } from "./company.config";
 import { LOCALES, LOCALE_LABELS, localized, type Locale, type LocalizedText } from "./i18n";
 import { OfficeWorld } from "./OfficeWorld";
+import { useHermesSocket } from "./hooks/useHermesSocket";
 import type { WorkflowStatus } from "./game/workflow";
 
 const themeStyle = {
@@ -63,13 +64,29 @@ export function DemoApp() {
   const [locale, setLocale] = useState<Locale>("en");
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  const { statuses, connected } = useHermesSocket();
+
+  const workerToWorkspace = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const workspace of WORKSPACES) {
+      map[workspace.worker.id] = workspace.id;
+    }
+    return map;
+  }, []);
+
   const workspaceStatuses = useMemo(() => {
     const map: Record<string, WorkflowStatus> = {};
     for (const workspace of WORKSPACES) {
-      map[workspace.id] = workspace.id === activeId ? "running" : "idle";
+      map[workspace.id] = "idle";
+    }
+    for (const [agentId, status] of Object.entries(statuses)) {
+      const wsId = workerToWorkspace[agentId];
+      if (wsId) {
+        map[wsId] = status === "idle" ? "idle" : "running";
+      }
     }
     return map;
-  }, [activeId]);
+  }, [statuses]);
 
   return (
     <div className="app-shell demo-shell" data-draftroom-shell="" style={themeStyle}>
@@ -106,6 +123,17 @@ export function DemoApp() {
             </button>
           ))}
         </div>
+        <span
+          className="demo-connection"
+          style={{
+            marginLeft: "auto",
+            fontSize: 12,
+            fontWeight: 600,
+            color: connected ? "#22c55e" : "#f59e0b",
+          }}
+        >
+          {connected ? "● Live" : "○ Demo"}
+        </span>
       </header>
 
       <div className="workspace-layout demo-layout">

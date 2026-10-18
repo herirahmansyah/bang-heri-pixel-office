@@ -248,11 +248,11 @@ export type AmenityZone = {
 };
 
 const ZONE_GEOMETRY = {
-  briefing: { col: 1, row: 1, cols: 15, rows: 11, door: { col: 7, row: 12 } },
-  research: { col: 17, row: 1, cols: 15, rows: 11, door: { col: 23, row: 12 } },
-  ideas: { col: 33, row: 1, cols: 14, rows: 11, door: { col: 39, row: 12 } },
-  studio: { col: 1, row: 18, cols: 20, rows: 11, door: { col: 21, row: 24 } },
-  archive: { col: 27, row: 18, cols: 20, rows: 11, door: { col: 26, row: 24 } },
+  "agen-bangheri": { col: 1, row: 1, cols: 15, rows: 11, door: { col: 7, row: 12 } },
+  "agen-inbox": { col: 17, row: 1, cols: 15, rows: 11, door: { col: 23, row: 12 } },
+  "agen-content": { col: 33, row: 1, cols: 14, rows: 11, door: { col: 39, row: 12 } },
+  "agen-pm": { col: 1, row: 18, cols: 20, rows: 11, door: { col: 21, row: 24 } },
+  "agen-admin": { col: 27, row: 18, cols: 20, rows: 11, door: { col: 26, row: 24 } },
 } as const satisfies Record<WorkspaceId, Pick<WorkspaceZone, "col" | "row" | "cols" | "rows" | "door">>;
 
 export const WORKSPACE_ZONES: readonly WorkspaceZone[] = WORKSPACES.map((workspace) => ({
@@ -265,11 +265,11 @@ export const WORKSPACE_ZONES: readonly WorkspaceZone[] = WORKSPACES.map((workspa
 }));
 
 export const WORKSPACE_SEATS = {
-  briefing: [{ col: 7, row: 8 }, { col: 3, row: 8 }, { col: 11, row: 8 }],
-  research: [{ col: 23, row: 8 }, { col: 19, row: 8 }, { col: 27, row: 8 }],
-  ideas: [{ col: 39, row: 8 }, { col: 35, row: 8 }, { col: 43, row: 8 }],
-  studio: [{ col: 10, row: 24 }, { col: 6, row: 24 }, { col: 14, row: 24 }],
-  archive: [{ col: 37, row: 24 }, { col: 33, row: 24 }, { col: 41, row: 24 }],
+  "agen-bangheri": [{ col: 7, row: 8 }, { col: 3, row: 8 }, { col: 11, row: 8 }],
+  "agen-inbox": [{ col: 23, row: 8 }, { col: 19, row: 8 }, { col: 27, row: 8 }],
+  "agen-content": [{ col: 39, row: 8 }, { col: 35, row: 8 }, { col: 43, row: 8 }],
+  "agen-pm": [{ col: 10, row: 24 }, { col: 6, row: 24 }, { col: 14, row: 24 }],
+  "agen-admin": [{ col: 37, row: 24 }, { col: 33, row: 24 }, { col: 41, row: 24 }],
 } as const satisfies Record<WorkspaceId, readonly [OfficePoint, OfficePoint, OfficePoint]>;
 
 export const AMENITY_ZONES = [
