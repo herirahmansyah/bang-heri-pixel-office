@@ -74,6 +74,12 @@ export function DemoApp() {
     "Semua sistem normal.",
   ];
 
+  const OFFICE_EVENT_MESSAGES: Record<string, string> = {
+    musala: "🕌 Waktunya salat berjamaah dulu di Musala…",
+    standup: "🤝 Standup meeting di lobi, semua berkumpul!",
+    work: "💻 Kembali kerja, ada deadline yang menunggu!",
+  };
+
   useEffect(() => {
     if (connected) return;
     const interval = setInterval(() => {
@@ -94,13 +100,31 @@ export function DemoApp() {
       const data = await res.json();
       // Extract events from backend response and update agentMessages directly
       const backendEvents: Array<{ agentId: string; message: string }> = data.events ?? [];
-      for (const ev of backendEvents) {
-        if (ev.agentId && ev.message) {
-          setSimulatedMessages((prev) => ({ ...prev, [ev.agentId]: ev.message }));
+      if (backendEvents.length > 0) {
+        for (const ev of backendEvents) {
+          if (ev.agentId && ev.message) {
+            setSimulatedMessages((prev) => ({ ...prev, [ev.agentId]: ev.message }));
+          }
         }
+      } else {
+        // Backend succeeded but no events — use fallback message for all agents
+        setSimulatedMessages((prev) => {
+          const next: Record<string, string> = { ...prev };
+          for (const agentId of PRIMARY_AGENT_IDS) {
+            next[agentId] = OFFICE_EVENT_MESSAGES[type];
+          }
+          return next;
+        });
       }
     } catch {
-      // Silent fail if backend is not running
+      // Backend not available — use fallback message for all agents
+      setSimulatedMessages((prev) => {
+        const next: Record<string, string> = { ...prev };
+        for (const agentId of PRIMARY_AGENT_IDS) {
+          next[agentId] = OFFICE_EVENT_MESSAGES[type];
+        }
+        return next;
+      });
     }
   };
 
