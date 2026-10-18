@@ -56,6 +56,8 @@ export type OfficeWorldProps = {
    * Without this signal, switching the provider back would leave the office empty.
    */
   officeSession?: number;
+  /** Latest chat message per agent from Hermes WebSocket events. Shown as a speech bubble above primary agents for 5s. */
+  agentMessages?: Readonly<Record<string, string>>;
   /** Keeps playback speed and actual walking on the same time axis. Defaults to 1. */
   motionTimeScale?: number;
   /** Signals whether everyone who received an arrival event has walked to their actual seat. */
@@ -424,6 +426,7 @@ export function OfficeWorld({
   motionTimeScale = 1,
   onArrivalSettledChange,
   onHeadcountChange,
+  agentMessages,
 }: OfficeWorldProps) {
   const [history, setHistory] = useState<LayoutHistory>({
     past: [],
@@ -433,6 +436,7 @@ export function OfficeWorld({
   // Employee motion lives in a ref, not state. Calling setState every frame would rerender the entire editor too.
   const motionsRef = useRef<Record<string, AgentMotion>>(initialMotions());
   const agentEls = useRef(new Map<string, HTMLLIElement>());
+  const messagesRef = useRef<Record<string, { text: string; receivedAt: number }>>({});
   const cameraEl = useRef<HTMLDivElement>(null);
   const stageEl = useRef<HTMLDivElement>(null);
   const stageSize = useRef({ width: 0, height: 0 });
@@ -584,6 +588,20 @@ export function OfficeWorld({
     appliedEvents.current = officeEvents;
     applyOfficeEvents(officeEvents, motionsRef.current, locale, performance.now(), motionTimeScaleRef.current);
   }, [locale, officeEvents, reducedMotion]);
+
+  // Sync latest Hermes messages into a ref with receive timestamps for 5s TTL in the rAF paint loop.
+  useEffect(() => {
+    const now = performance.now();
+    const next: Record<string, { text: string; receivedAt: number }> = {};
+    for (const [agentId, text] of Object.entries(agentMessages ?? {})) {
+      const prev = messagesRef.current[agentId];
+      next[agentId] = {
+        text,
+        receivedAt: prev && prev.text === text ? prev.receivedAt : now,
+      };
+    }
+    messagesRef.current = next;
+  }, [agentMessages]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -868,11 +886,23 @@ export function OfficeWorld({
         attr(el, "data-working", atDesk ? "true" : "false");
 
         const bubble = el.querySelector<HTMLElement>(".world-agent-bubble");
-        if (bubble && bubble.dataset.text !== motion.speech) {
-          bubble.dataset.text = motion.speech;
-          bubble.textContent = motion.speech;
-          attr(bubble, "data-on", motion.speech ? "true" : "false");
-          attr(bubble, "data-tone", motion.speechTone);
+        let bubbleText = motion.speech;
+        let bubbleTone = motion.speechTone;
+        if (agent.primary) {
+          // Hermes events key agentId with "agen-" prefix (e.g. "agen-bangheri"),
+          // while AGENTS worker ids have no prefix (e.g. "bangheri"). Try both.
+          const msgKey = messagesRef.current[agent.id] ? agent.id : `agen-${agent.id}`;
+          const msg = messagesRef.current[msgKey];
+          if (msg && now - msg.receivedAt < 5000) {
+            bubbleText = msg.text;
+            bubbleTone = "talk";
+          }
+        }
+        if (bubble && bubble.dataset.text !== bubbleText) {
+          bubble.dataset.text = bubbleText;
+          bubble.textContent = bubbleText;
+          attr(bubble, "data-on", bubbleText ? "true" : "false");
+          attr(bubble, "data-tone", bubbleTone);
         }
       }
     };

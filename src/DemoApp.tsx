@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { STATUS_LABELS, THEME, WORKSPACES } from "./company.config";
 import { LOCALES, LOCALE_LABELS, localized, type Locale, type LocalizedText } from "./i18n";
 import { OfficeWorld } from "./OfficeWorld";
@@ -32,17 +32,17 @@ const themeStyle = {
 const UI = {
   title: {
     ko: "픽셀 오피스 디자인 데모",
-    en: "Pixel Office Design Demo",
+    en: "Bang Heri AI Office",
     zh: "像素办公室设计演示",
     vi: "Bản demo thiết kế văn phòng pixel",
-    id: "Demo desain kantor piksel",
+    id: "Bang Heri AI Office",
   },
   preview: {
     ko: "상태 미리보기",
     en: "State preview",
     zh: "状态预览",
     vi: "Xem trước trạng thái",
-    id: "Pratinjau status",
+    id: "Status Agen",
   },
   clock: {
     ko: "데모 화면",
@@ -51,20 +51,51 @@ const UI = {
     vi: "Màn hình demo",
     id: "Tampilan demo",
   },
-  note: {
-    ko: "이 저장소는 디자인·움직임 데모입니다. AI 콘텐츠 생성 기능은 포함되어 있지 않습니다.",
-    en: "This repository is a design and motion demo. No AI content features are included.",
-    zh: "本仓库仅为设计与动作演示，不包含 AI 内容生成功能。",
-    vi: "Kho này chỉ là bản demo thiết kế và chuyển động, không kèm tính năng AI.",
-    id: "Repositori ini hanya demo desain dan gerakan, tanpa fitur konten AI.",
-  },
 } satisfies Record<string, LocalizedText>;
 
 export function DemoApp() {
   const [locale, setLocale] = useState<Locale>("en");
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [simulatedMessages, setSimulatedMessages] = useState<Record<string, string>>({});
 
-  const { statuses, connected } = useHermesSocket();
+  const { statuses, events, connected } = useHermesSocket();
+
+  const PRIMARY_AGENT_IDS = useMemo(() => WORKSPACES.map((w) => w.worker.id), []);
+
+  const SIMULATION_MESSAGES = [
+    "Selamat pagi, siap bekerja!",
+    "Laporan siap dikirim.",
+    "Menunggu persetujuan klien.",
+    "Sedang mengedit konten...",
+    "Rapat dimulai segera.",
+    "File sudah diunggah.",
+    "Perlu review segera.",
+    "Semua sistem normal.",
+  ];
+
+  useEffect(() => {
+    if (connected) return;
+    const interval = setInterval(() => {
+      const agentId = PRIMARY_AGENT_IDS[Math.floor(Math.random() * PRIMARY_AGENT_IDS.length)];
+      const message = SIMULATION_MESSAGES[Math.floor(Math.random() * SIMULATION_MESSAGES.length)];
+      setSimulatedMessages((prev) => ({ ...prev, [agentId]: message }));
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [connected, PRIMARY_AGENT_IDS]);
+
+  const agentMessages = useMemo(() => {
+    const latest: Record<string, string> = {};
+    for (const event of events) {
+      latest[event.agentId] = event.message;
+    }
+    for (const [agentId, text] of Object.entries(simulatedMessages)) {
+      latest[agentId] = text;
+    }
+    for (const agentId of Object.keys(latest)) {
+      latest[agentId] = latest[agentId].slice(0, 60);
+    }
+    return latest;
+  }, [events, simulatedMessages]);
 
   const workerToWorkspace = useMemo(() => {
     const map: Record<string, string> = {};
@@ -92,6 +123,7 @@ export function DemoApp() {
     <div className="app-shell demo-shell" data-draftroom-shell="" style={themeStyle}>
       <header className="demo-bar">
         <strong>{localized(UI.title, locale)}</strong>
+        <div className="demo-subtitle">Kantor AI Otonom • Lombok, NTB</div>
         <select
           aria-label="language"
           onChange={(event) => setLocale(event.target.value as Locale)}
@@ -140,6 +172,7 @@ export function DemoApp() {
         <section className="office-panel" data-pane="office">
           <OfficeWorld
             activeWorkspaceId={activeId}
+            agentMessages={agentMessages}
             clock={{ label: localized(UI.clock, locale), time: "--:--" }}
             locale={locale}
             officeEvents={[]}
@@ -150,7 +183,6 @@ export function DemoApp() {
         </section>
       </div>
 
-      <footer className="demo-foot">{localized(UI.note, locale)}</footer>
     </div>
   );
 }

@@ -34,9 +34,9 @@ export function localized(value: LocalizedText, locale: Locale): string {
 }
 
 const ko = {
-  "office.kicker": "UNIFIED WORKFLOW FLOOR",
-  "office.title": "하나로 연결된 콘텐츠 오피스",
-  "office.summary": "총 {count}명 · 담당자는 업무실을 지키고, 지원 인력은 전체 직원의 20~40%를 목표로 공용 복도를 계속 걷습니다.",
+  "office.kicker": "BANG HERI AI AGENCY",
+  "office.title": "Kantor AI Otonom Bang Heri",
+  "office.summary": "5 AI Agent bekerja 24/7 — dipantau langsung dari VPS",
   "office.cameraGroup": "오피스 보기",
   "office.cameraFull": "전체 보기",
   "office.cameraClose": "가까이 보기",
@@ -110,9 +110,9 @@ const ko = {
 export type MessageKey = keyof typeof ko;
 
 const en: Record<MessageKey, string> = {
-  "office.kicker": "UNIFIED WORKFLOW FLOOR",
-  "office.title": "One connected content office",
-  "office.summary": "{count} people · leads stay in their rooms while support staff keep walking the shared corridor, targeting 20-40% of everyone on screen.",
+  "office.kicker": "BANG HERI AI AGENCY",
+  "office.title": "Kantor AI Otonom Bang Heri",
+  "office.summary": "5 AI Agent bekerja 24/7 — dipantau langsung dari VPS",
   "office.cameraGroup": "Office view",
   "office.cameraFull": "Whole floor",
   "office.cameraClose": "Close up",
@@ -184,9 +184,9 @@ const en: Record<MessageKey, string> = {
 };
 
 const zh: Record<MessageKey, string> = {
-  "office.kicker": "UNIFIED WORKFLOW FLOOR",
-  "office.title": "一体连通的内容办公室",
-  "office.summary": "共 {count} 人 · 负责人留在各自业务室，支援人员持续在公共走廊走动，目标占全员的 20~40%。",
+  "office.kicker": "BANG HERI AI AGENCY",
+  "office.title": "Kantor AI Otonom Bang Heri",
+  "office.summary": "5 AI Agent bekerja 24/7 — dipantau langsung dari VPS",
   "office.cameraGroup": "办公室视图",
   "office.cameraFull": "整层视图",
   "office.cameraClose": "近景视图",
@@ -258,9 +258,9 @@ const zh: Record<MessageKey, string> = {
 };
 
 const vi: Record<MessageKey, string> = {
-  "office.kicker": "UNIFIED WORKFLOW FLOOR",
-  "office.title": "Một văn phòng nội dung liền mạch",
-  "office.summary": "{count} người · trưởng nhóm ở lại phòng của mình, còn nhân viên hỗ trợ liên tục đi trong hành lang chung, nhắm tới 20-40% tổng số người trên màn hình.",
+  "office.kicker": "BANG HERI AI AGENCY",
+  "office.title": "Kantor AI Otonom Bang Heri",
+  "office.summary": "5 AI Agent bekerja 24/7 — dipantau langsung dari VPS",
   "office.cameraGroup": "Chế độ xem văn phòng",
   "office.cameraFull": "Toàn sàn",
   "office.cameraClose": "Xem gần",
@@ -332,16 +332,16 @@ const vi: Record<MessageKey, string> = {
 };
 
 const id: Record<MessageKey, string> = {
-  "office.kicker": "UNIFIED WORKFLOW FLOOR",
-  "office.title": "Satu kantor konten yang terhubung",
-  "office.summary": "{count} orang · penanggung jawab tetap di ruangnya, staf pendukung terus berjalan di koridor bersama, menargetkan 20-40% dari semua orang di layar.",
+  "office.kicker": "BANG HERI AI AGENCY",
+  "office.title": "Kantor AI Otonom Bang Heri",
+  "office.summary": "5 AI Agent bekerja 24/7 — dipantau langsung dari VPS",
   "office.cameraGroup": "Tampilan kantor",
   "office.cameraFull": "Seluruh lantai",
   "office.cameraClose": "Tampilan dekat",
   "office.cameraFollow": "Ikuti otomatis",
   "office.cameraFollowHint": "Hanya tersedia pada tampilan dekat.",
   "office.editorClose": "Tutup penata",
-  "office.editorOpen": "Tata kantor saya",
+  "office.editorOpen": "Pengaturan Kantor",
   "office.placePrompt": "Pilih tempat untuk meletakkan perabot.",
   "office.stage": "Kantor dengan lima ruang kerja dan empat ruang bersama yang terhubung",
   "office.stageClose": "Kantor dengan lima ruang kerja dan empat ruang bersama yang terhubung, tampilan dekat yang bisa digeser lewat lantai kosong",
