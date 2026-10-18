@@ -7,6 +7,8 @@ export interface AgentEvent {
   action: AgentStatus;
   message: string;
   timestamp: string;
+  targetX?: number;
+  targetY?: number;
 }
 
 export function useHermesSocket(url = "ws://localhost:8001/ws/frontend") {

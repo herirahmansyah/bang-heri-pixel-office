@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { STATUS_LABELS, THEME, WORKSPACES } from "./company.config";
 import { LOCALES, LOCALE_LABELS, localized, type Locale, type LocalizedText } from "./i18n";
 import { OfficeWorld } from "./OfficeWorld";
@@ -57,6 +57,7 @@ export function DemoApp() {
   const [locale, setLocale] = useState<Locale>("en");
   const [activeId, setActiveId] = useState<string | null>(null);
   const [simulatedMessages, setSimulatedMessages] = useState<Record<string, string>>({});
+  const officeEventTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { statuses, events, connected } = useHermesSocket();
 
@@ -83,6 +84,26 @@ export function DemoApp() {
     return () => clearInterval(interval);
   }, [connected, PRIMARY_AGENT_IDS]);
 
+  const handleOfficeEvent = async (type: "musala" | "standup" | "work") => {
+    try {
+      const res = await fetch("http://localhost:8001/api/office-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: type }),
+      });
+      const data = await res.json();
+      // Extract events from backend response and update agentMessages directly
+      const backendEvents: Array<{ agentId: string; message: string }> = data.events ?? [];
+      for (const ev of backendEvents) {
+        if (ev.agentId && ev.message) {
+          setSimulatedMessages((prev) => ({ ...prev, [ev.agentId]: ev.message }));
+        }
+      }
+    } catch {
+      // Silent fail if backend is not running
+    }
+  };
+
   const agentMessages = useMemo(() => {
     const latest: Record<string, string> = {};
     for (const event of events) {
@@ -92,7 +113,7 @@ export function DemoApp() {
       latest[agentId] = text;
     }
     for (const agentId of Object.keys(latest)) {
-      latest[agentId] = latest[agentId].slice(0, 60);
+      latest[agentId] = (latest[agentId] ?? "").slice(0, 60);
     }
     return latest;
   }, [events, simulatedMessages]);
@@ -155,17 +176,32 @@ export function DemoApp() {
             </button>
           ))}
         </div>
-        <span
-          className="demo-connection"
-          style={{
-            marginLeft: "auto",
-            fontSize: 12,
-            fontWeight: 600,
-            color: connected ? "#22c55e" : "#f59e0b",
-          }}
-        >
-          {connected ? "● Live" : "○ Demo"}
-        </span>
+        <div className="demo-events">
+          <button type="button" onClick={() => handleOfficeEvent("musala")} className="office-event-btn">🕌 Musala</button>
+          <button type="button" onClick={() => handleOfficeEvent("standup")} className="office-event-btn">🤝 Standup</button>
+          <button type="button" onClick={() => handleOfficeEvent("work")} className="office-event-btn">💻 Kerja</button>
+        </div>
+        <div className="demo-header-right">
+          <span
+            className="demo-connection"
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              color: connected ? "#22c55e" : "#f59e0b",
+            }}
+          >
+            {connected ? "● Live" : "○ Demo"}
+          </span>
+          {activeId && (
+            <span className="demo-active-zone">
+              {localized(
+                (WORKSPACES.find((w) => w.id === activeId)?.name ??
+                  { ko: "", en: "", zh: "", vi: "", id: "" }) as LocalizedText,
+                locale
+              )}
+            </span>
+          )}
+        </div>
       </header>
 
       <div className="workspace-layout demo-layout">
@@ -176,6 +212,7 @@ export function DemoApp() {
             clock={{ label: localized(UI.clock, locale), time: "--:--" }}
             locale={locale}
             officeEvents={[]}
+            onOfficeEvent={handleOfficeEvent}
             ready={true}
             workflowStatus={activeId ? "running" : "idle"}
             workspaceStatuses={workspaceStatuses}

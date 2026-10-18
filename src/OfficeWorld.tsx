@@ -58,6 +58,8 @@ export type OfficeWorldProps = {
   officeSession?: number;
   /** Latest chat message per agent from Hermes WebSocket events. Shown as a speech bubble above primary agents for 5s. */
   agentMessages?: Readonly<Record<string, string>>;
+  /** Callback triggered when an office event (musala / standup / work) is requested. */
+  onOfficeEvent?: (eventType: "musala" | "standup" | "work") => void;
   /** Keeps playback speed and actual walking on the same time axis. Defaults to 1. */
   motionTimeScale?: number;
   /** Signals whether everyone who received an arrival event has walked to their actual seat. */
@@ -106,14 +108,6 @@ const AGENTS = [
     teamIndex: 0,
     primary: true as const,
   })),
-  ...WORKSPACES.flatMap((workspace, workspaceIndex) =>
-    workspace.staff.map((staff, staffIndex) => ({
-      ...staff,
-      workspaceId: workspace.id,
-      workspaceIndex,
-      teamIndex: staffIndex + 1,
-      primary: false as const,
-    }))),
 ].map((agent, agentIndex) => ({ ...agent, agentIndex }));
 const DISPLAY_ZONES = [
   ...WORKSPACE_ZONES.map((zone) => ({ ...zone, kind: "work" as const })),
@@ -427,6 +421,7 @@ export function OfficeWorld({
   onArrivalSettledChange,
   onHeadcountChange,
   agentMessages,
+  onOfficeEvent,
 }: OfficeWorldProps) {
   const [history, setHistory] = useState<LayoutHistory>({
     past: [],
@@ -692,7 +687,12 @@ export function OfficeWorld({
         : working
           ? WORKSPACE_SEATS[agent.workspaceId][0]
           : homePoint(agent);
-      const normalGoal = motion.leaving ? `leave:${agent.id}` : working ? `work:${agent.workspaceId}` : homeGoal(agent);
+      const normalGoal = motion.leaving
+        ? `leave:${agent.id}`
+        : working
+          ? `work:${agent.workspaceId}`
+          : homeGoal(agent);
+      const targetGoal = normalGoal;
       const layoutChanged = motion.layoutKey !== pathLayoutKey;
       let path = layoutChanged ? [] : motion.path;
       let goal = motion.goal;
@@ -704,7 +704,6 @@ export function OfficeWorld({
         : walkingBack
           ? strollPointForAgent(agent.agentIndex, "back")
           : normalTarget;
-      const targetGoal = walkingOut || walkingBack || returning ? goal : normalGoal;
 
       /** Stand still and wait until the next reconsideration — otherwise pathfinding runs every frame. */
       const settle = () => {
@@ -1198,7 +1197,7 @@ export function OfficeWorld({
                   data-zone-status={zone.kind === "work" ? workspaceStatuses[zone.id] ?? "idle" : undefined}
                 >
                   <div className="office-zone-heading">
-                    <span>{zone.code}</span>
+                    <span className="office-zone-code">{zone.code}</span>
                     <div>
                       <strong>{localized(zone.name, locale)}</strong>
                       {zone.kind === "amenity" ? <small>{localized(zone.role, locale)}</small> : null}

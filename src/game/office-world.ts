@@ -275,7 +275,7 @@ export const WORKSPACE_SEATS = {
 export const AMENITY_ZONES = [
   {
     id: "library", code: "LIB",
-    name: { ko: "도서관", en: "Library", zh: "图书室", vi: "Thư viện", id: "Perpustakaan" },
+    name: { ko: "도서관", en: "Library", zh: "图书室", vi: "Thư viện", id: "Pustaka" },
     role: { ko: "조용히 읽고 정리하는 곳", en: "A quiet place to read and sort things out", zh: "安静阅读和整理的地方", vi: "Nơi yên tĩnh để đọc và sắp xếp", id: "Tempat tenang untuk membaca dan merapikan" },
     accent: "#5f8fb4",
     col: 48, row: 1, cols: 11, rows: 11, door: { col: 53, row: 12 }, aisleCol: 53,
@@ -292,9 +292,9 @@ export const AMENITY_ZONES = [
   },
   {
     id: "cafe", code: "CAFE",
-    name: { ko: "카페", en: "Café", zh: "咖啡厅", vi: "Quán cà phê", id: "Kafe" },
-    role: { ko: "커피를 마시며 쉬는 곳", en: "A place to take a break over coffee", zh: "喝咖啡休息的地方", vi: "Nơi nghỉ ngơi bên tách cà phê", id: "Tempat rehat sambil menikmati kopi" },
-    accent: "#d87943",
+    name: { ko: "Musala", en: "Musala", zh: "Musala", vi: "Musala", id: "Musala" },
+    role: { ko: "기도를 하는 곳", en: "A place for prayer", zh: "祈祷的地方", vi: "Nơi cầu nguyện", id: "Tempat beribadah" },
+    accent: "#0d9488",
     col: 60, row: 1, cols: 11, rows: 11, door: { col: 65, row: 12 }, aisleCol: 65,
     seats: [
       { col: 62, row: 11 }, { col: 66, row: 11 }, { col: 70, row: 11 },
@@ -309,7 +309,7 @@ export const AMENITY_ZONES = [
   },
   {
     id: "lounge", code: "REST",
-    name: { ko: "휴게실", en: "Lounge", zh: "休息室", vi: "Phòng nghỉ", id: "Ruang Santai" },
+    name: { ko: "휴게실", en: "Lounge", zh: "休息室", vi: "Phòng nghỉ", id: "Santai" },
     role: { ko: "소파에 앉아 쉬는 곳", en: "A place to sit back on the sofa", zh: "坐在沙发上放松的地方", vi: "Nơi ngả lưng trên ghế sofa", id: "Tempat bersantai di sofa" },
     accent: "#9b7bc7",
     col: 48, row: 18, cols: 11, rows: 11, door: { col: 53, row: 17 }, aisleCol: 53,
@@ -326,7 +326,7 @@ export const AMENITY_ZONES = [
   },
   {
     id: "dining", code: "DINE",
-    name: { ko: "식당", en: "Dining", zh: "餐厅", vi: "Nhà ăn", id: "Ruang Makan" },
+    name: { ko: "식당", en: "Dining", zh: "餐厅", vi: "Nhà ăn", id: "Makan" },
     role: { ko: "함께 식사하는 곳", en: "A place to eat together", zh: "一起用餐的地方", vi: "Nơi cùng nhau dùng bữa", id: "Tempat makan bersama" },
     accent: "#73a55d",
     col: 60, row: 18, cols: 11, rows: 11, door: { col: 65, row: 17 }, aisleCol: 65,

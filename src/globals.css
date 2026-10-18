@@ -468,11 +468,21 @@ p {
   font-weight: 900;
   line-height: 1.15;
   white-space: nowrap;
+  overflow: visible;
+}
+
+.office-zone-code {
+  display: none;
 }
 
 .office-zone-heading > div {
   display: grid;
   min-width: 0;
+}
+
+.office-zone-heading strong {
+  overflow: visible;
+  white-space: nowrap;
 }
 
 .office-zone-heading small {
