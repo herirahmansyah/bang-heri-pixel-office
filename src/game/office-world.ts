@@ -278,16 +278,16 @@ export const AMENITY_ZONES = [
     name: { ko: "도서관", en: "Library", zh: "图书室", vi: "Thư viện", id: "Pustaka" },
     role: { ko: "조용히 읽고 정리하는 곳", en: "A quiet place to read and sort things out", zh: "安静阅读和整理的地方", vi: "Nơi yên tĩnh để đọc và sắp xếp", id: "Tempat tenang untuk membaca dan merapikan" },
     accent: "#5f8fb4",
-    col: 48, row: 1, cols: 11, rows: 11, door: { col: 53, row: 12 }, aisleCol: 53,
+    col: 60, row: 1, cols: 11, rows: 11, door: { col: 65, row: 12 }, aisleCol: 65,
     seats: [
-      { col: 49, row: 11 }, { col: 54, row: 11 }, { col: 58, row: 11 },
-      { col: 49, row: 8 }, { col: 54, row: 8 }, { col: 58, row: 8 }, { col: 54, row: 5 },
-      { col: 49, row: 4 }, { col: 58, row: 4 }, { col: 53, row: 2 },
+      { col: 61, row: 11 }, { col: 66, row: 11 }, { col: 70, row: 11 },
+      { col: 61, row: 8 }, { col: 66, row: 8 }, { col: 70, row: 8 }, { col: 66, row: 5 },
+      { col: 61, row: 4 }, { col: 70, row: 4 }, { col: 65, row: 2 },
     ],
     entryPoints: [
-      { col: 49, row: 13 }, { col: 57, row: 13 }, { col: 50, row: 13 }, { col: 56, row: 13 },
-      { col: 51, row: 13 }, { col: 55, row: 13 }, { col: 53, row: 13 },
-      { col: 52, row: 13 }, { col: 54, row: 13 }, { col: 48, row: 13 },
+      { col: 61, row: 13 }, { col: 69, row: 13 }, { col: 62, row: 13 }, { col: 68, row: 13 },
+      { col: 63, row: 13 }, { col: 67, row: 13 }, { col: 65, row: 13 },
+      { col: 64, row: 13 }, { col: 66, row: 13 }, { col: 60, row: 13 },
     ],
   },
   {
@@ -295,16 +295,16 @@ export const AMENITY_ZONES = [
     name: { ko: "Musala", en: "Musala", zh: "Musala", vi: "Musala", id: "Musala" },
     role: { ko: "기도를 하는 곳", en: "A place for prayer", zh: "祈祷的地方", vi: "Nơi cầu nguyện", id: "Tempat beribadah" },
     accent: "#0d9488",
-    col: 60, row: 1, cols: 11, rows: 11, door: { col: 65, row: 12 }, aisleCol: 65,
+    col: 48, row: 1, cols: 11, rows: 11, door: { col: 53, row: 12 }, aisleCol: 53,
     seats: [
-      { col: 62, row: 11 }, { col: 66, row: 11 }, { col: 70, row: 11 },
-      { col: 62, row: 8 }, { col: 66, row: 8 }, { col: 70, row: 8 },
-      { col: 66, row: 5 }, { col: 62, row: 2 }, { col: 66, row: 2 },
+      { col: 50, row: 11 }, { col: 54, row: 11 }, { col: 58, row: 11 },
+      { col: 50, row: 8 }, { col: 54, row: 8 }, { col: 58, row: 8 },
+      { col: 54, row: 5 }, { col: 50, row: 2 }, { col: 54, row: 2 },
     ],
     entryPoints: [
-      { col: 63, row: 13 }, { col: 64, row: 13 }, { col: 65, row: 13 },
-      { col: 66, row: 13 }, { col: 67, row: 13 }, { col: 68, row: 13 },
-      { col: 61, row: 13 }, { col: 62, row: 13 }, { col: 69, row: 13 },
+      { col: 51, row: 13 }, { col: 52, row: 13 }, { col: 53, row: 13 },
+      { col: 54, row: 13 }, { col: 55, row: 13 }, { col: 56, row: 13 },
+      { col: 49, row: 13 }, { col: 50, row: 13 }, { col: 57, row: 13 },
     ],
   },
   {
@@ -344,15 +344,15 @@ export const AMENITY_ZONES = [
 ] as const satisfies readonly AmenityZone[];
 
 const LEGACY_AMENITY_ROUTES = [
-  { aisleCol: 53, door: { col: 53, row: 12 }, seats: [{ col: 49, row: 9 }, { col: 53, row: 9 }, { col: 57, row: 9 }, { col: 57, row: 4 }] },
   { aisleCol: 65, door: { col: 65, row: 12 }, seats: [{ col: 61, row: 9 }, { col: 65, row: 9 }, { col: 69, row: 9 }, { col: 69, row: 4 }] },
-  { aisleCol: 53, door: { col: 53, row: 17 }, seats: [{ col: 49, row: 25 }, { col: 53, row: 25 }, { col: 57, row: 25 }, { col: 57, row: 20 }] },
+  { aisleCol: 53, door: { col: 53, row: 12 }, seats: [{ col: 49, row: 9 }, { col: 53, row: 9 }, { col: 57, row: 9 }, { col: 57, row: 4 }] },
   { aisleCol: 65, door: { col: 65, row: 17 }, seats: [{ col: 61, row: 25 }, { col: 65, row: 25 }, { col: 69, row: 25 }, { col: 69, row: 20 }] },
+  { aisleCol: 53, door: { col: 53, row: 17 }, seats: [{ col: 49, row: 25 }, { col: 53, row: 25 }, { col: 57, row: 25 }, { col: 57, row: 20 }] },
 ] as const;
 
 const AMENITY_BYPASSES = [
-  { aisleCol: 53, row: 10, toCol: 58 }, { aisleCol: 53, row: 7, toCol: 58 },
   { aisleCol: 65, row: 10, toCol: 70 }, { aisleCol: 65, row: 7, toCol: 70 },
+  { aisleCol: 53, row: 10, toCol: 58 }, { aisleCol: 53, row: 7, toCol: 58 },
   { aisleCol: 53, row: 25, toCol: 58 }, { aisleCol: 53, row: 22, toCol: 58 },
   { aisleCol: 65, row: 25, toCol: 70 }, { aisleCol: 65, row: 22, toCol: 70 },
 ] as const;

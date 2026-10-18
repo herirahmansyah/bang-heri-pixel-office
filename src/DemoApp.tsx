@@ -54,7 +54,7 @@ const UI = {
 } satisfies Record<string, LocalizedText>;
 
 export function DemoApp() {
-  const [locale, setLocale] = useState<Locale>("en");
+  const [locale, setLocale] = useState<Locale>("id");
   const [activeId, setActiveId] = useState<string | null>(null);
   const [simulatedMessages, setSimulatedMessages] = useState<Record<string, string>>({});
   const officeEventTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
