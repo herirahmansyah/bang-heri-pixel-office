@@ -1,0 +1,27 @@
+[Pixel Agents] Loading assets...
+[AssetLoader] ✅ Loaded 6 character sprites (7 frames × 3 directions each)
+[AssetLoader] ✅ Loaded 2 pet sprites
+[AssetLoader] Loading floor tiles from: /home/bang/.nvm/versions/node/v24.19.0/lib/node_modules/pixel-agents/dist/assets/floors
+[AssetLoader] ✅ Loaded 9 floor tile patterns from floors/
+[AssetLoader] Loading wall tiles from: /home/bang/.nvm/versions/node/v24.19.0/lib/node_modules/pixel-agents/dist/assets/walls
+[AssetLoader] ✅ Loaded 1 wall tile set(s) (16 pieces total)
+[AssetLoader] Loading carpet tiles from: /home/bang/.nvm/versions/node/v24.19.0/lib/node_modules/pixel-agents/dist/assets/carpets
+[AssetLoader] ✅ Loaded 3 carpet tile variant(s)
+[AssetLoader] workspaceRoot received: "/home/bang/.nvm/versions/node/v24.19.0/lib/node_modules/pixel-agents/dist"
+[AssetLoader] Scanning furniture directory: /home/bang/.nvm/versions/node/v24.19.0/lib/node_modules/pixel-agents/dist/assets/furniture
+📦 Found 25 furniture folders
+  ✓ Loaded 38 / 38 assets
+[AssetLoader] ✅ Successfully loaded 38 furniture sprites
+[AssetLoader] Loaded default layout (21×22, revision 1) from default-layout-1.json
+[Pixel Agents] Assets loaded: 6 characters, 2 pets, 38 furniture items
+{"level":30,"time":1792371592844,"pid":39562,"hostname":"bang-ThinkPad-T540p","msg":"Server listening at http://127.0.0.1:44891"}
+[Pixel Agents] Server: listening on 127.0.0.1:44891
+[Pixel Agents] Terminal enabled (via @lydell/node-pty)
+[Pixel Agents] Hook script installed at /home/bang/.pixel-agents/hooks/claude-hook.js
+[Pixel Agents] Hooks installed
+[Pixel Agents] Scanning project dir: /home/bang/.claude/projects/-home-bang-projects-bang-heri-pixel-office
+
+  Pixel Agents server running at http://127.0.0.1:44891/?token=8615ef50-b385-43bf-8de0-10a67ba5ef4d
+
+
+Shutting down...

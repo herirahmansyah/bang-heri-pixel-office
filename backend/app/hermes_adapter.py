@@ -1,0 +1,1 @@
+/home/bang/projects/bang-heri-ai-agency/backend/app/hermes_adapter.py

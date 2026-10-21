@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/bang/.local/bin/hermes_to_claude_transcript.py", line 33, in <module>
+    from hermes_adapter import parse_log_line  # noqa: E402
+ModuleNotFoundError: No module named 'hermes_adapter'
